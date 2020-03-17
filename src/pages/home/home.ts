@@ -1,5 +1,7 @@
 import { Component } from "@angular/core";
 import { NavController } from "ionic-angular";
+import { ToastController } from "ionic-angular";
+import { AlertController } from "ionic-angular";
 
 class GroceryItem {
   private _name: string;
@@ -37,6 +39,11 @@ class GroceryItem {
   }
 }
 
+interface IInputData {
+  name: string;
+  quantity: string;
+}
+
 @Component({
   selector: "page-home",
   templateUrl: "home.html"
@@ -52,5 +59,62 @@ export class HomePage {
     new GroceryItem("Frozen Pizza", 1, 5.99, this._priceFormatter)
   ];
 
-  constructor(public navCtrl: NavController) {}
+  constructor(
+    public navCtrl: NavController,
+    public toastCtrl: ToastController,
+    public alertCtrl: AlertController
+  ) {}
+
+  public removeItem(item, itemIndex) {
+    this.groceries.splice(itemIndex, 1);
+    this._presentToast(item.name);
+  }
+
+  private _presentToast(itemName: string) {
+    this.toastCtrl
+      .create({
+        message: `${itemName} removed successfully`,
+        duration: 3000
+      })
+      .present();
+  }
+
+  public addItem() {
+    this.alertCtrl
+      .create({
+        title: "Add Item",
+        message: "Enter the name and quantity of the item",
+        inputs: [
+          {
+            name: "name",
+            placeholder: "name"
+          },
+          {
+            name: "quantity",
+            placeholder: "quantity",
+            type: "number"
+          }
+        ],
+        buttons: [
+          {
+            text: "Cancel",
+            handler: data => {}
+          },
+          {
+            text: "Add",
+            handler: (data: IInputData) => {
+              this.groceries.push(
+                new GroceryItem(
+                  data.name,
+                  parseInt(data.quantity),
+                  0,
+                  this._priceFormatter
+                )
+              );
+            }
+          }
+        ]
+      })
+      .present();
+  }
 }

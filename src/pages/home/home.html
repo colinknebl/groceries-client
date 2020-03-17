@@ -1,38 +1,27 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>Groceries</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-
-  <div>
-    <h2>My Heroes</h2>
-    <ul class="heroes">
-      <li *ngFor="let hero of heroes">
-        <span class="badge">{{hero.id}}</span> {{hero.name}}
-      </li>
-    </ul>
-  </div>
-
   <ion-list>
-    <ion-item-sliding *ngFor="let item of groceries">
+    <ion-item-sliding *ngFor="let item of groceries; let i = index">
       <ion-item>
         <h2>{{item.name}}, {{item.quantity}}</h2>
       </ion-item>
-      <ion-item-options side="left">
-        <button ion-button color="success">
-          <ion-icon name="checkmark-circle"></ion-icon>
-          Check
-        </button>
-      </ion-item-options>
       <ion-item-options side="right">
-        <button ion-button color="danger">
+        <button (click)="removeItem(item, i)" ion-button color="danger">
           <ion-icon name="trash"></ion-icon>
           Delete
         </button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+
+  <ion-fab bottom right>
+    <button ion-fab mini (click)="addItem()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
