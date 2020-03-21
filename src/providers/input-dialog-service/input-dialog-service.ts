@@ -11,6 +11,7 @@ interface IInputData {
 interface IPromptDetails {
   title: string;
   message: string;
+  confirmText: string;
   handler(data: IInputData, itemIndex?: number): void;
 }
 
@@ -25,6 +26,7 @@ export class InputDialogServiceProvider {
   private _addDetails: IPromptDetails = {
     title: "Add Item",
     message: "Enter the name and quantity of the item",
+    confirmText: "Add",
     handler: (data: IInputData) => {
       this.groceriesService.addItem(data.name, parseInt(data.quantity));
     }
@@ -32,6 +34,7 @@ export class InputDialogServiceProvider {
   private _editDetails: IPromptDetails = {
     title: "Edit Item",
     message: "Edit the name and quantity of the item",
+    confirmText: "Edit",
     handler: (data: IInputData, itemIndex: number) => {
       this.groceriesService.editItem(
         data.name,
@@ -47,7 +50,7 @@ export class InputDialogServiceProvider {
   ) {}
 
   public showPrompt(item?: GroceryItem, itemIndex?: number): void {
-    const { title, message, handler }: IPromptDetails = item
+    const { title, message, confirmText, handler }: IPromptDetails = item
       ? this._editDetails
       : this._addDetails;
 
@@ -74,7 +77,7 @@ export class InputDialogServiceProvider {
             handler: data => {}
           },
           {
-            text: "Add",
+            text: confirmText,
             handler: (data: IInputData) => {
               handler(data, itemIndex);
             }
