@@ -5,12 +5,19 @@
 </ion-header>
 
 <ion-content padding>
+  <h3 text-center *ngIf="groceries.length === 0">
+    No items in your list!
+  </h3>
   <ion-list>
     <ion-item-sliding *ngFor="let item of groceries; let i = index">
       <ion-item>
         <h2>{{item.name}}, {{item.quantity}}</h2>
       </ion-item>
       <ion-item-options side="right">
+        <button (click)="editItem(item, i)" ion-button color="primary">
+          <ion-icon name="trash"></ion-icon>
+          Edit
+        </button>
         <button (click)="removeItem(item, i)" ion-button color="danger">
           <ion-icon name="trash"></ion-icon>
           Delete
