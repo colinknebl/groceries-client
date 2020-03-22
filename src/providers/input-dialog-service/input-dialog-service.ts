@@ -12,7 +12,7 @@ interface IPromptDetails {
   title: string;
   message: string;
   confirmText: string;
-  handler(data: IInputData, itemIndex?: number): void;
+  handler(data: IInputData, item?: GroceryItem): void;
 }
 
 /*
@@ -34,13 +34,9 @@ export class InputDialogServiceProvider {
   private _editDetails: IPromptDetails = {
     title: "Edit Item",
     message: "Edit the name and quantity of the item",
-    confirmText: "Edit",
-    handler: (data: IInputData, itemIndex: number) => {
-      this.groceriesService.editItem(
-        data.name,
-        parseInt(data.quantity),
-        itemIndex
-      );
+    confirmText: "Update",
+    handler: (data: IInputData, item: GroceryItem) => {
+      this.groceriesService.editItem(data.name, parseInt(data.quantity), item);
     }
   };
 
@@ -79,7 +75,7 @@ export class InputDialogServiceProvider {
           {
             text: confirmText,
             handler: (data: IInputData) => {
-              handler(data, itemIndex);
+              handler(data, item);
             }
           }
         ]

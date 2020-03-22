@@ -12,20 +12,36 @@ import { InputDialogServiceProvider } from "../../providers/input-dialog-service
   templateUrl: "home.html"
 })
 export class HomePage {
+  public _groceries: GroceryItem[] = [];
+
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     public groceriesService: GroceriesServiceProvider,
     public inputService: InputDialogServiceProvider,
     private socialSharing: SocialSharing
-  ) {}
+  ) {
+    groceriesService.dataChanged$.subscribe(() => {
+      this.loadItems();
+    });
+  }
 
   public get groceries(): GroceryItem[] {
-    return this.groceriesService.groceries;
+    return this._groceries;
+  }
+  ionViewDidLoad() {
+    this.loadItems();
+  }
+
+  public loadItems() {
+    this.groceriesService.getItems().subscribe(
+      items => (this._groceries = items),
+      error => console.error(error)
+    );
   }
 
   public removeItem(item: GroceryItem, itemIndex: number): void {
-    this.groceriesService.removeItem(itemIndex);
+    this.groceriesService.removeItem(item);
     this._presentToast(item.name);
   }
 

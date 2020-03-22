@@ -11,12 +11,14 @@ import { TabsPage } from "../pages/tabs/tabs";
 
 import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
+import { HttpClientModule } from "@angular/common/http";
+
 import { GroceriesServiceProvider } from "../providers/groceries-service/groceries-service";
 import { InputDialogServiceProvider } from "../providers/input-dialog-service/input-dialog-service";
 
 @NgModule({
   declarations: [MyApp, AboutPage, ContactPage, HomePage, TabsPage],
-  imports: [BrowserModule, IonicModule.forRoot(MyApp)],
+  imports: [BrowserModule, IonicModule.forRoot(MyApp), HttpClientModule],
   bootstrap: [IonicApp],
   entryComponents: [MyApp, AboutPage, ContactPage, HomePage, TabsPage],
   providers: [
